@@ -1,44 +1,51 @@
-# Electron+Java Demo
+# Electron Wrapper for Java Web Apps
 
-Java Desktop Application with HTML 5 UI based on Electron and Vaadin
+Wrap an existing Java Web Application with Electron without touching your code.
 
 ## Uses
 
 1. Node JS
 2. Electron
-3. Gradle
-4. JDK 8
-5. Jetty HTTP Server
-6. Vaadin Framework
-
-## Features
-
-0. Easy building with Gradle
-1. Jetty server with Web Sockets enabled
-2. Vaadin UI code in plain Java
-3. Bi-directional WebSocket connection with Vaadin Push and Jetty WebSocket module
-4. Two way communication between Electron and web application using javascript functions
-5. Auto start / stop of server side on application init / exit
-6. Custom window header
+3. Java VM
 
 ## Try it!
 
 ### Preparations
 
-Build java application:
+1. Download and install `npm` from https://nodejs.org/en/download/
+2. By default the application is required to run on `localhost:8080` (configure if otherwise under `electron-src\main.js:78`).
+3. By default `java` needs to be available via the path variable (you can ship your own jvm and set the path in the main.js) 
+4. The provided Jar needs to be executable via `java -jar <file>.jar`  
+5. Place your built Jar in the `jar` folder (__Don't place more than one Jar__ in the `jar` folder since only the first to be found will be executed)
+  
+### Features
+- shows loading Animation (plain html site) until the Servlet Container has been started
+  
+### Customization
+- Logging under `.\electron-src\main.js:74` 
+- Loading animation in `.\electron-src\` replace the `loading.html` file
+- Loading animation window size under `.\electron-src\main.js:58-59` 
+- Icon under `.\electron-src\` replace the `icon.ico` file
+- Main window title under `.\electron-src\main.js:103`
+- Main window size under `.\electron-src\main.js:104-105`
+- Special run parameters for the jar under `electron-src\main.js:67`
 
-    > gradlew build
+### Running debug version
 
-Run debug version:
+#### Windows
+`> electron-app-debug.bat`
 
-    > gradlew runApp
+#### Unix
+`> ./electron-app-debug.bin`
 
 ### Building standalone app
-        
-    > gradlew bundleApp
+     
+#### Windows
+`> electron-app-package.bat`  
 
-Application will be bundled to `build/bundle`
+Application will be bundled to `output/electron-vaadin-win32-x64`
 
-## Screenshot
+#### Unix
+`> ./electron-app-package.bin`  
 
-![Demo Image](/docs/app-window.png?raw=true "Application Window")
+Application will be bundled to `output/electron-vaadin-darwin-x64`
