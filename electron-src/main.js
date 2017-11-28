@@ -4,12 +4,15 @@ const {
 const path = require('path');
 let mainWindow = null;
 let serverProcess = null;
-var shouldQuit = app.makeSingleInstance(function (commandLine, workingDirectory) {
-    // Someone tried to run a second instance, we should focus our window.
+var otherInstanceOpen = app.makeSingleInstance(function(commandLine, workingDirectory) {
     if (mainWindow) {
+        if (mainWindow.isMinimized()) mainWindow.restore();
         mainWindow.show();
+        mainWindow.focus();
     }
+    return true;
 });
+if(otherInstanceOpen){app.quit();return;}
 var fs = require("fs");
 var files = fs.readdirSync("./electron-vaadin");
 var filename = null;
