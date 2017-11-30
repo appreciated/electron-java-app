@@ -1,8 +1,8 @@
-./gradlew bundle
-rm -R ./electron-src/electron-vaadin-darwin-x64/
+npm list --depth 1 --global electron-packager
+sudo npm install electron-packager -g
+rm -r -f ./build/electron-vaadin-darwin-x64/
 cd electron-src
 npm install
-cp -R ../build/install/electron-vaadin/ ./electron-vaadin/
-electron-packager . --icon=icon.ico  --ignore=README.md --ignore=.npmignore --ignore=.travis.yml
-#mkdir -p ./electron-vaadin-darwin-x64/Resources/app/electron-vaadin/
-cd ..
+mkdir -p ./electron-vaadin/
+cp ../jar/*.jar ./electron-vaadin/
+electron-packager . --icon=icon.ico  --ignore=README.md --ignore=.npmignore --ignore=.travis.yml --out ../build/
