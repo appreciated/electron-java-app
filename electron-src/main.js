@@ -5,7 +5,7 @@ var windowHeight = 800;
 var animationWidth = 300;
 var animationHeight = 150;
 var javaVMParameters =  []; //['-Dserver.port=' + port, '-Dtest=test'];
-var windowsJavaPath = 'java.exe'
+var windowsJavaPath = 'java.exe';
 var darwinJavaPath = 'java';
 const {
     app, session, protocol, BrowserWindow, Menu, globalShortcut
