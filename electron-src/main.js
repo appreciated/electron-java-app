@@ -1,31 +1,48 @@
+var title = 'Title';
+var port = 8080;
+var windowWidth = 1200;
+var windowHeight = 800;
+var animationWidth = 300;
+var animationHeight = 150;
+var javaVMParameters =  []; //['-Dserver.port=' + port, '-Dtest=test'];
+var windowsJavaPath = 'java.exe'
+var darwinJavaPath = 'java';
 const {
     app, session, protocol, BrowserWindow, Menu, globalShortcut
 } = require('electron');
 const path = require('path');
 let mainWindow = null;
 let serverProcess = null;
-var shouldQuit = app.makeSingleInstance(function (commandLine, workingDirectory) {
-    // Someone tried to run a second instance, we should focus our window.
+var otherInstanceOpen = app.makeSingleInstance(function (commandLine, workingDirectory) {
     if (mainWindow) {
+        if (mainWindow.isMinimized()) mainWindow.restore();
         mainWindow.show();
+        mainWindow.focus();
     }
+    return true;
 });
-var fs = require("fs");
-var files = fs.readdirSync("./electron-vaadin");
+if (otherInstanceOpen) {
+    app.quit();
+    return;
+}
+var fs = require('fs');
+var files = fs.readdirSync(app.getAppPath() + '/electron-vaadin');
 var filename = null;
 for (var i in files) {
-    if (path.extname(files[i]) === ".jar") {
+    if (path.extname(files[i]) === '.jar') {
         filename = path.basename(files[i]);
         break;
     }
 }
 if (!filename) {
-	setTimeout( function () {app.exit()}, 1000);
-    throw new Error("The Application could not be started");
+    setTimeout(function () {
+        app.exit()
+    }, 1000);
+    throw new Error('The Application could not be started');
 }
 // Provide API for web application
 global.callElectronUiApi = function (args) {
-    console.log('Electron called from web app with args "' + args + '"');
+    console.log('Electron called from web app with args ' + args);
     if (args) {
         if (args[0] === 'exit') {
             console.log('Kill server process');
@@ -42,7 +59,8 @@ global.callElectronUiApi = function (args) {
         if (args[0] === 'maximize') {
             if (!mainWindow.isMaximized()) {
                 mainWindow.maximize();
-            } else {
+            }
+            else {
                 mainWindow.unmaximize();
             }
         }
@@ -55,66 +73,50 @@ app.on('ready', function () {
     let loading = new BrowserWindow({
         show: false
         , frame: false
-        , width: 300
-        , height: 150
+        , title: title
+        , width: animationWidth
+        , height: animationHeight
     });
     loading.loadURL(app.getAppPath() + '/loading.html');
     loading.webContents.once('dom-ready', () => {
         loading.show();
     });
     platform = process.platform;
+    var javaPath = 'java';
     if (platform === 'win32') {
-        serverProcess = require('child_process').spawn('java.exe', ['-jar', filename], {
-            cwd: './electron-vaadin'
-        });
-    } else if (platform === 'darwin') {
-        serverProcess = require('child_process').spawn(app.getAppPath() + '/electron-vaadin/bin/electron-vaadin');
+        javaPath = windowsJavaPath;
     }
-    serverProcess.stdout.pipe(fs.createWriteStream('./jvm.log', {flags: 'a'})); // logging
-    serverProcess.on('error', (code, signal) => {
-	    setTimeout( function () {app.exit()}, 1000);
-	    throw new Error("The Application could not be started");
+    else if (platform === 'darwin') {
+        javaPath = darwinJavaPath;
+    }
+    serverProcess = require('child_process').spawn(javaPath, ['-jar'].concat(javaVMParameters).concat(filename), {
+        cwd: app.getAppPath() + '/electron-vaadin'
     });
-    console.log("Server PID: " + serverProcess.pid);
-    let appUrl = 'http://localhost:8080';
-
-    function setupVaadinFilesService() {
-        protocol.registerFileProtocol('vaadin', (request, callback) => {
-            console.log(`Vaadin Request URL: ${request.url}`);
-            let urlPath = request.url.substr('vaadin://'.length);
-            if (urlPath.indexOf('?') >= 0) {
-                urlPath = urlPath.substr(0, urlPath.indexOf('?'));
-            }
-            if (urlPath.indexOf('#') >= 0) {
-                urlPath = urlPath.substr(0, urlPath.indexOf('#'));
-            }
-            console.log(`Vaadin Request Path: ${urlPath}`);
-            const fsPath = path.normalize(`${__dirname}/electron-vaadin/VAADIN/${urlPath}`);
-            console.log(`Vaadin Request File: ${fsPath}`);
-            callback({
-                path: fsPath
-            });
-        }, (error) => {
-            if (error) console.error('Failed to register protocol');
-        });
-    }
+    serverProcess.stdout.pipe(fs.createWriteStream(app.getAppPath() + '/electron-vaadin/jvm.log', {
+        flags: 'a'
+    })); // logging
+    serverProcess.on('error', (code, signal) => {
+        setTimeout(function () {
+            app.exit()
+        }, 1000);
+        throw new Error('The Application could not be started');
+    });
+    console.log('Server PID: ' + serverProcess.pid);
+    let appUrl = 'http://localhost:' + port;
     const openWindow = function () {
-        setupVaadinFilesService();
         mainWindow = new BrowserWindow({
-            title: 'Title'
-            , width: 1200
-            , height: 800
+            title: title
+            , width: windowWidth
+            , height: windowHeight
             , frame: true
         });
         mainWindow.loadURL(appUrl);
         mainWindow.webContents.once('dom-ready', () => {
-                console.log('main loaded')
-                mainWindow.show()
-                loading.hide()
-                loading.close()
-            })
-            // uncomment to show debug tools
-            // mainWindow.webContents.openDevTools();
+            console.log('main loaded')
+            mainWindow.show()
+            loading.hide()
+            loading.close()
+        })
         mainWindow.on('closed', function () {
             mainWindow = null;
         });
@@ -124,7 +126,7 @@ app.on('ready', function () {
                     type: 'question'
                     , buttons: ['Yes', 'No']
                     , title: 'Confirm'
-                    , message: 'Are you sure you want to quit?'
+                    , message: 'Dou you really want to exit?'
                 });
                 if (choice == 1) {
                     e.preventDefault();
