@@ -19,7 +19,7 @@ Wrap an existing Java Web Application with Electron without touching your code.
 5. Place your built Jar in the `jar` folder (__Don't place more than one Jar__ in the `jar` folder since only the first to be found will be executed)
   
 ### Features
-- shows loading Animation (plain html site) until the Servlet Container has been started
+- shows html page as loading Animation (which can be replaced) until the Servlet Container has been started 
   
 ### Customization
 - Logging under `.\electron-src\main.js:74` 
@@ -43,9 +43,22 @@ Wrap an existing Java Web Application with Electron without touching your code.
 #### Windows
 `> electron-app-package.bat`  
 
-Application will be bundled to `output/electron-vaadin-win32-x64`
+Application will be bundled to `output/electron-vaadin-...` (pending on the system you compile one)
 
 #### Unix
 `> ./electron-app-package.bin`  
 
-Application will be bundled to `output/electron-vaadin-darwin-x64`
+Application will be bundled to `output/electron-vaadin-...`  (pending on the system you compile one)
+
+### Building for all Archs (Window 32 + 64 Bit, Unix ...)
+     
+#### Windows
+`> electron-app-package-all.bat`  
+
+Application will be bundled multiple times for all archs `output/electron-vaadin-...`
+
+#### Unix
+`> ./electron-app-package-all.bin`  
+
+Application will be bundled multiple times for all archs `output/electron-vaadin-...`
+
