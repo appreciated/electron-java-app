@@ -50,7 +50,7 @@ Application will be bundled to `output/electron-vaadin-...` (pending on the syst
 
 Application will be bundled to `output/electron-vaadin-...`  (pending on the system you compile one)
 
-### Building for all Archs (Window 32 + 64 Bit, Unix ...)
+### Building for all Archs (Window 32 + 64 Bit, Darwin ...)
      
 #### Windows
 `> electron-app-package-all.bat`  
