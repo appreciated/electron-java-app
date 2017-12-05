@@ -4,4 +4,4 @@ cd electron-src
 npm install
 mkdir -p ./electron-vaadin/
 cp ../jar/*.jar ./electron-vaadin/
-electron-packager . --all --icon=icon.ico  --ignore=README.md --ignore=.npmignore --ignore=.travis.yml --out ../build/
+electron-packager . --icon=icon.ico  --ignore=README.md --ignore=.npmignore --ignore=.travis.yml --out ../build/
