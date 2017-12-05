@@ -12,4 +12,4 @@ xcopy ..\jar .\electron-vaadin\ /E /Y
 :: Install node dependencies
 call npm install
 :: Package electron
-call electron-packager . --all --icon=icon.ico --ignore=README.md --ignore=.npmignore --ignore=.travis.yml --out ../build/
+call electron-packager . --icon=icon.ico --ignore=README.md --ignore=.npmignore --ignore=.travis.yml --out ../build/
