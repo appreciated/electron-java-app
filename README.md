@@ -38,7 +38,7 @@ Wrap an existing Java Web Application with Electron without touching your code.
 #### Unix
 `> ./electron-app-debug.sh`
 
-### Building standalone app
+### Build application for host arch
      
 #### Windows
 `> electron-app-package.bat`  
@@ -50,7 +50,7 @@ Application will be bundled to `output/electron-vaadin-...` (pending on the syst
 
 Application will be bundled to `output/electron-vaadin-...`  (pending on the system you compile one)
 
-### Building for all Archs (Window 32 + 64 Bit, Darwin ...)
+### Build application for all archs (Window 32 + 64 Bit, Darwin ...)
      
 #### Windows
 `> electron-app-package-all.bat`  
