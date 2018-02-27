@@ -15,7 +15,7 @@ Wrap an existing Java Web Application with Electron without touching your code.
 1. Download and install `npm` from https://nodejs.org/en/download/
 2. By default the Java web application is required to run on `localhost:8080` (configure if otherwise under `electron-src\main.js:78`).
 3. By default `java` needs to be available via the path variable (configure if otherwise the path in the main.js) 
-4. Not only java needs to be available but also the provided Jar needs to be executable via `java -jar <file>.jar`.  
+4. The provided Jar needs to be executable via `java -jar <file>.jar`.  
 5. Place your built [(Fat-)Jar](https://stackoverflow.com/questions/19150811/what-is-a-fat-jar) in the `jar` folder.
   
 ### Features
