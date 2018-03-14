@@ -45,12 +45,12 @@ Basically everything but you will need to rebuilt the application most of the ti
 #### Windows
 `> electron-app-package.bat`  
 
-Application will be bundled to `output/electron-vaadin-...` (pending on the system you compile one)
+Application will be bundled to `output/electron-vaadin-...` (pending on the system you compile on)
 
 #### Unix
 `> ./electron-app-package.sh`  
 
-Application will be bundled to `output/electron-vaadin-...`  (pending on the system you compile one)
+Application will be bundled to `output/electron-vaadin-...`  (pending on the system you compile on)
 
 ### Build application for all archs (Window 32 + 64 Bit, Darwin ...)
      
